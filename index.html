@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redireccionar URI</title>
     <script>
-        // Función para obtener el 'protocol' y 'path' de la URL
+        // Función para obtener los parámetros de la query o de la URL
         function redirectToURI() {
-            // Obtener la ruta después del dominio (por ejemplo: /tel:/34684015339)
-            const fullPath = window.location.pathname;
-            
-            // Eliminar el primer '/' y dividir el resultado por '/'
-            const pathParts = fullPath.substring(1).split('/');
+            const params = new URLSearchParams(window.location.search);
+            let protocol = params.get('protocol');
+            let path = params.get('path');
 
-            // El primer elemento será el protocolo y el segundo será el path
-            const protocol = pathParts[0];
-            const path = pathParts[1];
-            
+            // Si no hay parámetros en la query, obtenerlos de la URL
+            if (!protocol || !path) {
+                const fullPath = window.location.pathname;
+                const pathParts = fullPath.substring(1).split('/');
+                
+                // Si no se obtuvieron de la query, los tomamos de la URL
+                protocol = protocol || pathParts[0];
+                path = path || pathParts[1];
+            }
+
             if (protocol && path) {
                 // Decodificar protocolo y path para evitar problemas con caracteres especiales
                 const decodedProtocol = decodeURIComponent(protocol);
@@ -25,7 +29,7 @@
                 // Redirigir a la URI construida
                 window.location.href = `${decodedProtocol}${decodedPath}`;
             } else {
-                document.body.innerHTML = "<h1>Faltan 'protocol' o 'path' en la URL</h1>";
+                document.body.innerHTML = "<h1>Faltan 'protocol' o 'path' en la URL o la query</h1>";
             }
         }
 
