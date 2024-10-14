@@ -7,6 +7,7 @@
     <script>
         // Función para obtener los parámetros de la query o de la URL
         function redirectToURI() {
+            debugger;
             const params = new URLSearchParams(window.location.search);
             let protocol = params.get('protocol');
             let path = params.get('path');
