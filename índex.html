@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redireccionar URI</title>
+    <script>
+        // Función para obtener los parámetros de la query 'protocol' y 'path' y redirigir
+        function redirectToURI() {
+            const params = new URLSearchParams(window.location.search);
+            const protocol = params.get('protocol');
+            const path = params.get('path');
+            
+            if (protocol && path) {
+                // Decodificar el protocolo y el path para evitar problemas con caracteres especiales
+                const decodedProtocol = decodeURIComponent(protocol);
+                const decodedPath = decodeURIComponent(path);
+                
+                // Redirigir a la URI construida
+                window.location.href = `${decodedProtocol}${decodedPath}`;
+            } else {
+                document.body.innerHTML = "<h1>Faltan los parámetros 'protocol' o 'path' en la URL</h1>";
+            }
+        }
+
+        // Llamar a la función cuando se carga la página
+        window.onload = redirectToURI;
+    </script>
+</head>
+<body>
+</body>
+</html>
