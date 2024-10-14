@@ -7,20 +7,9 @@
     <script>
         // Función para obtener los parámetros de la query o de la URL
         function redirectToURI() {
-            debugger;
             const params = new URLSearchParams(window.location.search);
             let protocol = params.get('protocol');
             let path = params.get('path');
-
-            // Si no hay parámetros en la query, obtenerlos de la URL
-            if (!protocol || !path) {
-                const fullPath = window.location.pathname;
-                const pathParts = fullPath.substring(1).split('/');
-                
-                // Si no se obtuvieron de la query, los tomamos de la URL
-                protocol = protocol || pathParts[0];
-                path = path || pathParts[1];
-            }
 
             if (protocol && path) {
                 // Decodificar protocolo y path para evitar problemas con caracteres especiales
@@ -30,7 +19,7 @@
                 // Redirigir a la URI construida
                 window.location.href = `${decodedProtocol}${decodedPath}`;
             } else {
-                document.body.innerHTML = "<h1>Faltan 'protocol' o 'path' en la URL o la query</h1>";
+                document.body.innerHTML = "<h1>Faltan 'protocol' o 'path' en la query</h1>";
             }
         }
 
